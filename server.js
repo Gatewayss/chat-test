@@ -39,29 +39,6 @@ io.on('connection', (socket) => {
   })
 });
 
-// io.on('connection', (socket) => {
-//   console.log(`User connected: ${socket.id}`);
-
-//   socket.on('chat message', (data) => {
-//     console.log(`User: ${socket.id} message: ${data.message} to recipient: ${data.recipient}`);
-//     if (data.recipient === '') {
-//       socket.broadcast.emit('chat message', data.message);
-//     } else {
-//       socket.to(data.recipient).emit('chat message', data.message);
-//       console.log(data.message);
-//     }
-//   });
-// });
-
-
-
 http.listen(port, () => {
   console.log(`Socket.IO server running at http://localhost:${port}/`);
 });
-
-// TODO: 
-// 1. figure out how to add nicknames/ID's
-// 1.5 maybe figure out how to save message for 24 hours
-// 2. maybe figure out rooms/private messaging?
-// if not then figure out how to use it as a general announcement feature
-// use handlebars and display this how you would want this 
