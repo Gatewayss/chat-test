@@ -19,20 +19,41 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
-  });
+  console.log(`User connected: ${socket.id}`);
   
-  io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-      console.log(`user: ${socket.id} message: ` + msg);
-    });
+  socket.on('chat message', (data) => {
+    //console.log(data);
+    console.log(`User: ${socket.id} message: ${data.message} to recipient: ${data.recipient}`);
+    if (data.recipient === '') {
+    io.emit('chat message', data.message, data.username);
+    } else {
+      socket.to(data.recipient).emit('chat message',  data.message, data.username);
+      io.in(data.sender).emit('chat message', data.message, data.username)
+      console.log(data.sender);
+    }
   });
 
-io.on('connection', (socket) => {
-  socket.on('chat message', msg => {
-    io.emit('chat message', msg);
-  });
+  socket.on("join-room", (room, cb) => {
+    socket.join(room)
+    cb(`Joined ${room}`)
+  })
 });
+
+// io.on('connection', (socket) => {
+//   console.log(`User connected: ${socket.id}`);
+
+//   socket.on('chat message', (data) => {
+//     console.log(`User: ${socket.id} message: ${data.message} to recipient: ${data.recipient}`);
+//     if (data.recipient === '') {
+//       socket.broadcast.emit('chat message', data.message);
+//     } else {
+//       socket.to(data.recipient).emit('chat message', data.message);
+//       console.log(data.message);
+//     }
+//   });
+// });
+
+
 
 http.listen(port, () => {
   console.log(`Socket.IO server running at http://localhost:${port}/`);

@@ -7,7 +7,10 @@
   <body>
     <ul id="messages"></ul>
     <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
+      <input id="input" autocomplete="off" required/><button>Send</button>
+      <input id="room" />room
+      <button id="join">join</button>
+      <input id="username" required/>name
     </form>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="./index.js"></script>
